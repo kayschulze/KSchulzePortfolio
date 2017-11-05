@@ -16,6 +16,8 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <link href="~/css/site.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
@@ -34,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="GitHubRepos" asp-action="MyRepos">My Repos</a></li>
+                    <li><a asp-area="" asp-controller="GitHubRepos" asp-action="Index">My Repos</a></li>
                 </ul>
             </div>
         </div>

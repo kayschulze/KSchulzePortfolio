@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: skyblue;
 }
 
 /* Wrapping element */
@@ -38,4 +39,57 @@ textarea {
 
 .img-responsive {
     max-height: 200px;
+}
+
+body {
+    background-color: beige;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.subheading {
+    font-style: oblique;
+}
+
+.container {
+    position: relative;
+}
+
+.picture {
+    text-align: center;
+}
+
+#clip {
+    position: absolute;
+    clip: rect(100px, 100px, 200px, 100px)
+}
+
+img {
+    width: 10%;
+}
+
+h2 {
+    text-decoration: underline;
+}
+
+.introbar {
+    width: 25%;
+    float: left;
+    font-family: 'Ubuntu', sans-serif;
+    z-index: 1;
+}
+
+.tabcontents {
+    width: 75%;
+    float: left;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.background {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 20px;
+}
+
+.techskills {
+    color: red;
+    font-weight: bold;
 }
