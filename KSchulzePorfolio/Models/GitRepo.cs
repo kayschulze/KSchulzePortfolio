@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
-using RestSharp.Authenticators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,12 +15,12 @@ namespace KSchulzePortfolio.Models
 
         public static List<GitRepo> GetGitRepos()
         {
-            var client = new RestClient();
-            client.BaseUrl = new Uri("http://api.github.com");
+            var client = new RestClient("http://api.github.com");
+            //client.BaseUrl = new Uri("http://api.github.com");
 
-            var request = new RestRequest("users/kayschulze/repos", Method.GET);
+            var request = new RestRequest("users/kayschulze/", Method.GET);
             //client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
-            //request.Resource = "users/kayschulze/repos";
+            //request.Resource = "users/kayschulze/";
 
             //IRestResponse response = client.Execute(request);
 
@@ -32,30 +31,8 @@ namespace KSchulzePortfolio.Models
             }).Wait();
 
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var gitRepoList = JsonConvert.DeserializeObject<List<GitRepo>>(jsonResponse["messages"].ToString());
+            var gitRepoList = JsonConvert.DeserializeObject<List<GitRepo>>(jsonResponse["repos"].ToString());
             return gitRepoList;
-        }
-
-        public static GitRepo GetOneGitRepo()
-        {
-            var client = new RestClient();
-            client.BaseUrl = new Uri("http://api.github.com");
-
-            var request = new RestRequest("users/kayschulze/repos", Method.GET);
-            //client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
-            //request.Resource = "users/kayschulze/repos";
-
-            //IRestResponse response = client.Execute(request);
-
-            var response = new RestResponse();
-            Task.Run(async () =>
-            {
-                response = await GetResponseContentAsync(client, request) as RestResponse;
-            }).Wait();
-
-            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var gitRepo = JsonConvert.DeserializeObject<GitRepo>(jsonResponse["messages"].ToString());
-            return gitRepo;
         }
 
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
