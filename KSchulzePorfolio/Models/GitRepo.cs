@@ -10,42 +10,52 @@ namespace KSchulzePortfolio.Models
 {
     public class GitRepo
     {
-        public string To { get; set; }
-        public string From { get; set; }
-        public string Body { get; set; }
-        public string Status { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Url { get; set; }
 
         public static List<GitRepo> GetGitRepos()
         {
-            var client = new RestClient("");
-            var request = new RestRequest("Accounts/EnvironmentVariable.AccountSid/Messages.json", Method.GET);
-            client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
+            var client = new RestClient();
+            client.BaseUrl = new Uri("http://api.github.com");
+
+            var request = new RestRequest("users/kayschulze/repos", Method.GET);
+            //client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
+            //request.Resource = "users/kayschulze/repos";
+
+            //IRestResponse response = client.Execute(request);
+
             var response = new RestResponse();
             Task.Run(async () =>
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
+
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
             var gitRepoList = JsonConvert.DeserializeObject<List<GitRepo>>(jsonResponse["messages"].ToString());
             return gitRepoList;
         }
 
-        public void Send(List<GitRepo> gitrepos)
+        public static GitRepo GetOneGitRepo()
         {
-            var client = new RestClient("");
-            var request = new RestRequest("Accounts/" + EnvironmentVariable.AccountSid + "Messages", Method.POST);
+            var client = new RestClient();
+            client.BaseUrl = new Uri("http://api.github.com");
 
-            foreach (var gitrepo in gitrepos)
+            var request = new RestRequest("users/kayschulze/repos", Method.GET);
+            //client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
+            //request.Resource = "users/kayschulze/repos";
+
+            //IRestResponse response = client.Execute(request);
+
+            var response = new RestResponse();
+            Task.Run(async () =>
             {
-                request.AddParameter("To", To);
-                request.AddParameter("From", From);
-                request.AddParameter("Body", Body);
-                client.Authenticator = new HttpBasicAuthenticator("EnvironmentVariable.AccountSid", "EnvironmentVariable.AuthToken");
-                client.ExecuteAsync(request, response =>
-                {
-                    Console.WriteLine(response.Content);
-                });
-            }
+                response = await GetResponseContentAsync(client, request) as RestResponse;
+            }).Wait();
+
+            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
+            var gitRepo = JsonConvert.DeserializeObject<GitRepo>(jsonResponse["messages"].ToString());
+            return gitRepo;
         }
 
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
